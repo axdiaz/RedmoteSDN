@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid" style="background-color: rgba(10,10,10,.50); color: white">
+        <div class="container">
+            <h1 class="display-4">Welcome to Redmote</h1>
+            <p class="lead">Here is a listing of devices discovered by our SDN Scanner</p>
+        </div>
+    </div>
+    <div class="album py-5" style="background-color: rgba(240,240,240,.2)">
+
+        <div class="container " style="min-height:100%">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="card mb-3 col-md-4" style="max-width: 540px;">
+                        <div class="row">
+                            <div class="col-md-4 d-flex justify-content-lg-center flex-column bg-dark">
+                                <h5 class="text-center">Layer 2</h5>
+                                <img src="{% static "icons/layer2.png" %}" class="card-img" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3 col-md-4" style="max-width: 540px;">
+                        <div class="row">
+                            <div class="col-md-4 d-flex justify-content-lg-center flex-column bg-dark">
+                                <h5 class="text-center">Layer 2</h5>
+                                <img src="{% static "icons/layer2.png" %}" class="card-img" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
