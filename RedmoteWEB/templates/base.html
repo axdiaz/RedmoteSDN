@@ -2,36 +2,64 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{% block title %}Dominio | Titulo pagina {% endblock %}</title>
-        <meta name="description" content="{% block description %}{% endblock %}"/>
+    <title>{% block title %}Dominio | Titulo pagina {% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}"/>
 
-        <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-        <link rel="stylesheet" href="{% static boot %}">
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static boot %}">
 
-        {% block head %}
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+{% include "navbar.html" %}
+
+<div class="container-fluid flex-wrap row" style="min-height: 90vh; background-image: url(http://thepatternlibrary.com/img/ao.gif); padding-top: 10px">
+    <div id="content-div" class="col-9">
+        {% block content %}
         {% endblock %}
-    </head>
+    </div>
+    <div class="col-3">
+        {% include "right-panel.html" %}
+    </div>
 
-    <body>
-        {% include "navbar.html" %}
+</div>
 
-        <div class="container-fluid" style="min-height: 90vh; background-image: url(http://thepatternlibrary.com/img/ao.gif); padding-top: 10px">
-            {% block content %}
-            {% endblock %}
-        </div>
+{% include "footer.html" %}
 
-        {% include "footer.html" %}
+<!-- All that javascript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script>
+    $("#detail-panel .close").click(function () {
+        hideDetailPanel();
+    });
 
-        <!-- All that javascript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    $(".device-card").click(function () {
+        let detailPanel = $("#detail-panel");
+        if (detailPanel.is(":hidden"))
+            showDetailPanel();
+        else
+            hideDetailPanel();
+    });
 
-        {% block scripts %}
-        {% endblock %}
-    </body>
+    function showDetailPanel() {
+        $("#detail-panel").show();
+        $("#content-div").addClass("col-9").removeClass("col-12");
+    }
+
+    function hideDetailPanel() {
+        $("#detail-panel").hide();
+        $("#content-div").addClass("col-12").removeClass("col-9");
+    }
+</script>
+{% block scripts %}
+{% endblock %}
+</body>
 </html>

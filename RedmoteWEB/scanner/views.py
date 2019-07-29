@@ -4,4 +4,5 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return render(request, 'scanner/device-list.html')
+    context = {'devices': [{'id': 1}, {'id': 2}, {'id': 3}, {'id': 4}]}
+    return render(request, 'scanner/device-list.html', context)
