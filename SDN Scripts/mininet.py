@@ -22,9 +22,9 @@ def simpleTest():
     topo = SingleSwitchTopo(n=4)
     net = Mininet(topo)
     net.start()
-    print "Dumping host connections"
+    print("Dumping host connections")
     dumpNodeConnections(net.hosts)
-    print "Testing network connectivity"
+    print("Testing network connectivity")
     net.pingAll()
     net.stop()
 
