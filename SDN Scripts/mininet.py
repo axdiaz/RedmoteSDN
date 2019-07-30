@@ -1,37 +1,35 @@
-#!/usr/bin/python
+"""Custom topology example
+
+Two directly connected switches plus a host for each switch:
+
+   host --- switch --- switch --- host
+
+Adding the 'topos' dict with a key/value pair to generate our newly defined
+topology enables one to pass in '--topo=mytopo' from the command line.
+"""
 
 from mininet.topo import Topo
-from mininet.net import Mininet
-from mininet.util import dumpNodeConnections
-from mininet.log import setLogLevel
 
 
-class SingleSwitchTopo(Topo):
-    "Single switch connected to n hosts."
+class MyTopo(Topo):
+    "Simple topology example."
 
-    def build(self, n=2):
-        switch = self.addSwitch('s1')
-        # Python's range(N) generates 0..N-1
-        for h in range(n):
-            host = self.addHost('h%s' % (h + 1))
-            self.addLink(host, switch)
+    def __init__(self):
+        "Create custom topo."
 
+        # Initialize topology
+        Topo.__init__(self)
 
-def simpleTest():
-    "Create and test a simple network"
-    topo = SingleSwitchTopo(n=4)
-    net = Mininet(topo)
-    net.start()
-    print
-    "Dumping host connections"
-    dumpNodeConnections(net.hosts)
-    print
-    "Testing network connectivity"
-    net.pingAll()
-    net.stop()
+        # Add hosts and switches
+        left_host = self.addHost('h1')
+        right_host = self.addHost('h2')
+        left_switch = self.addSwitch('s3')
+        right_switch = self.addSwitch('s4')
+
+        # Add links
+        self.addLink(left_host, left_switch)
+        self.addLink(left_switch, right_switch)
+        self.addLink(right_switch, right_host)
 
 
-if __name__ == '__main__':
-    # Tell mininet to print useful information
-    setLogLevel('info')
-    simpleTest()
+topos = {'mytopo': (lambda: MyTopo())}
