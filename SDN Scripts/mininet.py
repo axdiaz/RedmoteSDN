@@ -33,4 +33,3 @@ class MyTopo(Topo):
 
 
 topos = {'mytopo': (lambda: MyTopo())}
->>>>>>> cdab0e922f6011526ca1cb699224dfa86bf00faa
