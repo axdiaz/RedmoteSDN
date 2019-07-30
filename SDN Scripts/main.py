@@ -17,4 +17,3 @@ switch_flow = response.json()
 print("switches: ", swtich_data)
 print("switch info: ", {item + " : " + switch_info['1'][item] for item in switch_info['1']})
 print("switch flow: ", {item + " : " + str(switch_flow['1'][0][item]) for item in switch_flow['1'][0]})
-
