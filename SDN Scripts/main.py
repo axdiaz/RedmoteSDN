@@ -22,15 +22,16 @@ class SwitchApi:
         def __get_switches__():
             response = requests.get(base_url + "switches")
             switch_data = response.json()
+            switch_info = __headers__(response)
+            filter_switches = []
 
             for switch in switch_data:
                 switch_response = requests.get(base_url + "desc/" + str(switch))
-                print(switch_response.json())
+                filter_switches.append(dict(
+                    [
+                        ("id", switch),
+                        ("data", switch_response.json()[str(switch)])
+                    ]))
 
-                switch_info = __headers__(switch_response)
-                filter_switches = [{"switch_id": switch, "data": switch_response.json()[switch]} for switch in
-                                   switch_response.json()]
-                switch_info['data'] = filter_switches
-                return switch_info
-
-
+            switch_info['data'] = filter_switches
+            return switch_info
