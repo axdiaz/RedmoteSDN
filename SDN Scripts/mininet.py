@@ -1,11 +1,11 @@
 from mininet.net import Mininet
-from mininet.node import Controller, RemoteController, OVSKernelSwitch, UserSwitch
+from mininet.node import Controller, OVSKernelSwitch, UserSwitch
 from mininet.log import setLogLevel
 from mininet.link import Link, TCLink
 
 
 def topology():
-    net = Mininet(controller=RemoteController, switch=OVSKernelSwitch)
+    net = Mininet(controller=None, switch=OVSKernelSwitch)
 
     # Add hosts and switches
 
