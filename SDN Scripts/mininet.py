@@ -17,7 +17,7 @@ def topology():
     s1 = net.addSwitch('s1')
     s2 = net.addSwitch('s2')
 
-    c0 = net.addController('c0', controller=RemoteController, ip='0.0.0.0', port=6653)
+    # c0 = net.addController('c0', controller=RemoteController, ip='0.0.0.0', port=6653)
 
     net.addLink(r1, s1)
     net.addLink(r1, s2)
@@ -25,9 +25,9 @@ def topology():
     net.addLink(h2, s2)
 
     net.build()
-    c0.start()
-    s1.start([c0])
-    s2.start([c0])
+    # c0.start()
+    # s1.start([c0])
+    # s2.start([c0])
 
 
 if __name__ == '__main__':
