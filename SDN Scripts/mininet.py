@@ -15,15 +15,15 @@ from time import sleep
 def myNetwork():
     net = Mininet(topo=None,
                   build=False,
-                  controller=None,
+                  controller=Ryu,
                   ipBase='10.0.0.0/8')
 
-    info('*** Adding controller\n')
-    c0 = net.addController(name='c0',
-                           controller=Ryu,
-                           ip='127.0.0.1',
-                           protocol='tcp',
-                           port=6653)
+    # info('*** Adding controller\n')
+    # c0 = net.addController(name='c0',
+    #                        controller=Ryu,
+    #                        ip='127.0.0.1',
+    #                        protocol='tcp',
+    #                        port=6653)
 
     info('*** Add switches\n')
     s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
@@ -45,9 +45,9 @@ def myNetwork():
     for controller in net.controllers:
         controller.start()
 
-    info('*** Starting switches\n')
-    net.get('s1').start([c0])
-    net.get('s2').start([c0])
+    # info('*** Starting switches\n')
+    # net.get('s1').start([c0])
+    # net.get('s2').start([c0])
 
     info('*** Post configure switches and hosts\n')
     net.pingAll()
