@@ -6,32 +6,47 @@ class SwitchApi:
     def __init__(self):
         base_url = "http://localhost:8080/stats/"
 
-        # number of switches and dpid
-        # switch info
-        # # switch flow
-        # response = requests.get(base_url + "flow/" + str(swtich_data[0]))
-        # switch_flow = response.json()
-        #
-        # print("switches: ", swtich_data)
-        # print("switch flow: ", {item: str(switch_flow['1'][0][item]) for item in switch_flow['1'][0]})
-
         def __headers__(response):
-            return {"status_code": response.status_code,
-                    "data": None}
+            return {"status_code": response.status_code}
 
         def __get_switches__():
             response = requests.get(base_url + "switches")
-            switch_data = response.json()
+
+            # setting headers
             switch_info = __headers__(response)
+            # setting info
             filter_switches = []
 
-            for switch in switch_data:
-                switch_response = requests.get(base_url + "desc/" + str(switch))
+            for switch in response.json():
+                switch_desc_response = requests.get(base_url + "desc/" + str(switch))
+                switch_flow_response = requests.get(base_url + "flow/" + str(switch))
                 filter_switches.append(dict(
                     [
                         ("id", switch),
-                        ("data", switch_response.json()[str(switch)])
+                        ("desc_data", switch_desc_response.json()[str(switch)]),
+                        ("flow_data", switch_flow_response.json()[str(switch)])
                     ]))
 
             switch_info['data'] = filter_switches
+
+            print(switch_info)
+
+            return switch_info
+
+        def __set_default_switch__(dpid):
+            response = requests.post(base_url + "flowentry/add", json=dict([
+                ("dpid", dpid),
+                ("cookie", 1),
+                ("cookie_mask", 1),
+                ("table_id", dpid),
+                ("idle_timeout", 30),
+                ("hard_timeout", 30),
+                ("priority", 11111),
+                ("flags", 1)]))
+
+            # setting headers
+            switch_info = __headers__(response)
+
+            print(switch_info)
+
             return switch_info
