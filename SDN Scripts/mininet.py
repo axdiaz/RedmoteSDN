@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from mininet.net import Mininet
-from mininet.node import Controller, RemoteController, OVSController
+from mininet.node import Controller, Ryu, OVSController
 from mininet.node import CPULimitedHost, Host, Node
 from mininet.node import OVSKernelSwitch, UserSwitch
 from mininet.node import IVSSwitch
@@ -17,20 +17,20 @@ def myNetwork():
                   build=False,
                   ipBase='10.0.0.0/8')
 
-    # info('*** Adding controller\n')
-    # c0 = net.addController(name='c0',
-    #                        controller='ryu',
-    #                        ip='127.0.0.1',
-    #                        protocol='tcp',
-    #                        port=6633)
+    info('*** Adding controller\n')
+    c0 = net.addController(name='c0',
+                           controller=Ryu,
+                           ip='127.0.0.1',
+                           protocol='tcp',
+                           port=6633)
 
     info('*** Add switches\n')
     s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
     s2 = net.addSwitch('s2', cls=OVSKernelSwitch)
 
     info('*** Add hosts\n')
-    h1 = net.addHost('h1')
-    h2 = net.addHost('h2')
+    h1 = net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
+    h2 = net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
 
     info('*** Add links\n')
     net.addLink(h1, s1)
@@ -40,17 +40,17 @@ def myNetwork():
     info('*** Starting network\n')
     net.build()
 
-    # info('*** Starting controllers\n')
-    # for controller in net.controllers:
-    #     controller.start()
+    info('*** Starting controllers\n')
+    for controller in net.controllers:
+        controller.start()
 
-    # info('*** Starting switches\n')
-    # net.get('s1').start([c0])
-    # net.get('s2').start([c0])
+    info('*** Starting switches\n')
+    net.get('s1').start([c0])
+    net.get('s2').start([c0])
 
-    # info('*** Post configure switches and hosts\n')
-    # net.pingAll()
-    # net.stop()
+    info('*** Post configure switches and hosts\n')
+    net.pingAll()
+    net.stop()
 
 
 if __name__ == '__main__':
