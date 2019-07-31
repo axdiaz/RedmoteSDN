@@ -20,9 +20,9 @@ def myNetwork():
     info('*** Adding controller\n')
     c0 = net.addController(name='c0',
                            controller=RemoteController,
-                           ip='0.0.0.0',
+                           ip='127.0.0.1',
                            protocol='tcp',
-                           port=8080)
+                           port=6633)
 
     info('*** Add switches\n')
     s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
