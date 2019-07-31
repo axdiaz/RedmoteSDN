@@ -21,7 +21,8 @@ def myNetwork():
     c0 = net.addController(name='c0',
                            controller=Ryu,
                            ip='127.0.0.1',
-                           protocol='tcp')
+                           protocol='tcp',
+                           port=6653)
 
     info('*** Add switches\n')
     s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
