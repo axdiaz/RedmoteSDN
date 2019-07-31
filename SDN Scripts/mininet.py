@@ -25,6 +25,7 @@ def topology():
     net.addLink(h2, s2)
 
     net.build()
+    c0.start()
 
 
 if __name__ == '__main__':
