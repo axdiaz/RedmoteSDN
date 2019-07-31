@@ -5,7 +5,7 @@ from mininet.link import Link, TCLink
 
 
 def topology():
-    net = Mininet(controller=RemoteController, link=TCLink, switch=OVSKernelSwitch)
+    net = Mininet(controller=RemoteController)
 
     # Add hosts and switches
 
