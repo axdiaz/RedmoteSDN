@@ -24,7 +24,6 @@ def topology():
     net.addLink(h1, s1)
     net.addLink(h2, s2)
 
-    net.start()
     # c0.start()
     # s1.start([c0])
     # s2.start([c0])
