@@ -21,7 +21,7 @@
 {% include "navbar.html" %}
 
 <div class="container-fluid flex-wrap row" style="min-height: 90vh; background-image: url(http://thepatternlibrary.com/img/ao.gif); padding-top: 10px">
-    <div id="content-div" class="col-9">
+    <div id="content-div" class="col-12">
         {% block content %}
         {% endblock %}
     </div>
@@ -37,6 +37,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 <script>
+    hideDetailPanel();
+
     $("#detail-panel .close").click(function () {
         hideDetailPanel();
     });
