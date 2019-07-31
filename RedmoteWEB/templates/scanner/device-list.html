@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid" style="background-color: rgba(10,10,10,.50); color: white">
+        <div class="container">
+            <h1 class="display-4">Welcome to Redmote</h1>
+            <p class="lead">Here is a listing of devices discovered by our SDN Scanner</p>
+        </div>
+    </div>
+    <div class="album py-5" style="background-color: rgba(240,240,240,.2)">
+
+        <div class="container-fluid " style="min-height:100%">
+            <div class="row">
+                {% for device in devices %}
+                    <div class="col-md-4">
+                        <div class="device-card card mb-3 col-md-4" style="max-width: 540px;">
+                            <div class="row">
+                                <div class="col-md-4 d-flex justify-content-between flex-column bg-dark">
+                                    <div class="row justify-content-center" style="width: 120%; padding: 10px">
+                                        <img style="max-width: 70px; max-height: 70px" src="{% static "icons/layer2.png" %}" class="card-img" alt="...">
+                                    </div>
+
+                                    <p class="text-center text-white">Layer 2</p>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Switch: {{ device.id }}</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
