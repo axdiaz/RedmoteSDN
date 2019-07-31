@@ -17,15 +17,12 @@ def topology():
     s1 = net.addSwitch('s1')
     s2 = net.addSwitch('s2')
 
-    c0 = net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=6633)
-
     net.addLink(r1, s1)
     net.addLink(r1, s2)
     net.addLink(h1, s1)
     net.addLink(h2, s2)
 
     net.build()
-    c0.start()
 
 
 if __name__ == '__main__':
