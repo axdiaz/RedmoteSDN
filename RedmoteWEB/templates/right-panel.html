@@ -1,15 +1,112 @@
 {% load static %}
 
-<div id="detail-panel" class="card text-white bg-dark mb-3">
+<div id="detail-panel" class="card text-white bg-dark mb-3" style="position: sticky; top: 10px;">
     <div class="card-header">
-        Header
+        <h6>Detailed Information</h6>
+        <h5 id="card-title" class="card-title">Dark card title</h5>
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-device" role="tab"
+                   aria-controls="pills-device" aria-selected="true">Device Info</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-layer2" role="tab"
+                   aria-controls="pills-layer2" aria-selected="false">Layer 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-layer3" role="tab"
+                   aria-controls="pills-layer3" aria-selected="false">Layer 3</a>
+            </li>
+        </ul>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">Dark card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div class="card-body" style="height: 75vh; overflow: scroll">
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-device" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="card-body" id="device_3">
+
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Device Name        </span>
+                        </div>
+                        <span type="text" class="form-control _name non-editable">
+s3    </span>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Software        </span>
+                        </div>
+                        <span type="text" class="form-control _name non-editable">
+2.5.5    </span>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Hardware        </span>
+                        </div>
+                        <span type="text" class="form-control _name non-editable">
+Open vSwitch    </span>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Manufacturer        </span>
+                        </div>
+                        <span type="text" class="form-control _name non-editable">
+Nicira, Inc.    </span>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Serial Number        </span>
+                        </div>
+                        <span type="text" class="form-control _name non-editable">
+None    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-layer2" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <ul id="port-list" class="list-group" style="margin: 15px;">
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="pills-layer3" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <div class="container-fluid">
+                    <h6 class="text-white">IP Addresses</h6>
+                    <div id="address-list">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#modalAddress">
+                        + Address
+                    </button>
+                </div>
+                <br/>
+                <br/>
+                <div class="container-fluid">
+                    <h6 class="text-white">Static Routes</h6>
+                    <div id="routes-list">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalRoute">
+                        + Route
+                    </button>
+                </div>
+                <br/>
+                <br/>
+                <div class="container-fluid">
+                    <h6 class="text-white">Default Route</h6>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Next Hop IP</span>
+                        </div>
+                        <span type="text" class="form-control _name non-editable">X.X.X.X</span>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#modalDefaultRoute">
+                        * Modify
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
+{% include 'scanner/new-address-modal.html' %}
+{% include 'scanner/new-route-modal.html' %}
+{% include 'scanner/modify-default-route.html' %}
