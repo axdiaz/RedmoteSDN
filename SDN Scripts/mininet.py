@@ -1,35 +1,59 @@
-"""Custom topology example
+#!/usr/bin/python
 
-Two directly connected switches plus a host for each switch:
-
-   host --- switch --- switch --- host
-
-Adding the 'topos' dict with a key/value pair to generate our newly defined
-topology enables one to pass in '--topo=mytopo' from the command line.
-"""
-
-from mininet.topo import Topo
-
-
-class MyTopo(Topo):
-    "Simple topology example."
-
-    def __init__(self):
-        "Create custom topo."
-
-        # Initialize topology
-        Topo.__init__(self)
-
-        # Add hosts and switches
-        left_host = self.addHost('h1')
-        right_host = self.addHost('h2')
-        left_switch = self.addSwitch('s3')
-        right_switch = self.addSwitch('s4')
-
-        # Add links
-        self.addLink(left_host, left_switch)
-        self.addLink(left_switch, right_switch)
-        self.addLink(right_switch, right_host)
+from mininet.net import Mininet
+from mininet.node import Controller, Ryu, OVSController
+from mininet.node import CPULimitedHost, Host, Node
+from mininet.node import OVSKernelSwitch, UserSwitch
+from mininet.node import IVSSwitch
+from mininet.cli import CLI
+from mininet.log import setLogLevel, info
+from mininet.link import TCLink, Intf
+from subprocess import call
+from time import sleep
 
 
-topos = {'mytopo': (lambda: MyTopo())}
+def myNetwork():
+    net = Mininet(topo=None,
+                  build=False,
+                  controller=Ryu,
+                  ipBase='10.0.0.0/8')
+
+    # info('*** Adding controller\n')
+    # c0 = net.addController(name='c0',
+    #                        controller=Ryu,
+    #                        ip='127.0.0.1',
+    #                        protocol='tcp',
+    #                        port=6653)
+
+    info('*** Add switches\n')
+    s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
+    s2 = net.addSwitch('s2', cls=OVSKernelSwitch)
+
+    info('*** Add hosts\n')
+    h1 = net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
+    h2 = net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
+
+    info('*** Add links\n')
+    net.addLink(h1, s1)
+    net.addLink(h2, s2)
+    net.addLink(s1, s2)
+
+    info('*** Starting network\n')
+    net.build()
+
+    info('*** Starting controllers\n')
+    for controller in net.controllers:
+        controller.start()
+
+    # info('*** Starting switches\n')
+    # net.get('s1').start([c0])
+    # net.get('s2').start([c0])
+
+    info('*** Post configure switches and hosts\n')
+    net.pingAll()
+    net.stop()
+
+
+if __name__ == '__main__':
+    setLogLevel('info')
+    myNetwork()
