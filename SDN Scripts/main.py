@@ -11,7 +11,7 @@ class SwitchApi:
             return {"status_code": response.status_code}
 
         # GETTERS
-        def __get_switches_info_():
+        def __get_switch_info__():
             response = requests.get(base_url + "switches")
 
             # setting headers
@@ -35,7 +35,7 @@ class SwitchApi:
 
             return switch_info
 
-        def __get_all_port_desc__():
+        def __get_switch_layer_two_info__():
             response = requests.get(base_url + "switches")
             ports_desc_switches = []
             switch_info = __headers__(response)
@@ -51,11 +51,26 @@ class SwitchApi:
             switch_info['data'] = ports_desc_switches
             print(switch_info)
 
-        def __get_switch_layer_two_info__():
-            response = requests.get(base_url_router + "all/all")
-            return response.json()
+        def __get_switch_layer_three_info__(router_id):
+            response = requests.get(
+                base_url_router + ("000000000000000" + router_id) if router_id is not None else "all/all")
+            layer_two_response = __headers__(response)
+            layer_two_response['data'] = response.json()
+
+            for item in layer_two_response['data']:
+                item['switch_id'] = item['switch_id'][-1]
+
+            print(layer_two_response)
+            return layer_two_response
 
         # SETTERS
+        def __set__adress__(switch_id, address):
+            response = requests.post(base_url_router + "000000000000000" + switch_id, json=dict([("address", address)]))
+            set_address_response = __headers__(response)
+            set_address_response['data'] = response.json()
+            print(set_address_response)
+            return set_address_response
+
         # def __set_default_switch__(dpid):
         #     response = requests.post(base_url + "flowentry/add", json=dict([
         #         ("dpid", dpid),
