@@ -13,20 +13,18 @@
         <div class="container-fluid " style="min-height:100%">
             <div class="row">
                 {% for device in devices %}
-                    <div id="_card_{{ device.id }}" class="col-md-4">
-                        <div class="device-card card mb-3 col-md-4" style="max-width: 540px;">
+                    <div id="_card_{{ device.id }}" class="col-md-4 device-card" data-pid="{{ device.id }}">
+                        <div class="card mb-3 col-md-4" style="max-width: 540px;">
                             <div class="row">
                                 <div class="col-md-4 d-flex justify-content-between flex-column bg-dark">
                                     <div class="row justify-content-center" style="width: 120%; padding: 40px">
                                         <img style="max-width: 70px; max-height: 70px"
                                              src="{% static "icons/layer2.png" %}" class="card-img" alt="...">
                                     </div>
-                                    <p class="text-center text-white">Layer 2</p>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body" id="device_{{ device.id }}">
                                         <h5 class="card-title">Switch: {{ device.id }}</h5>
-
                                     </div>
                                 </div>
                             </div>
@@ -41,7 +39,6 @@
 {% block scripts %}
     <script>
         function insert_property(id, tag, value) {
-
             let device = "#device_" + id;
             $(device).append('' +
                 '<div class="input-group input-group-sm mb-3">\n' +
@@ -60,8 +57,8 @@
             insert_property({{ device.id }}, 'Device Name', '{{device.data.dp_desc}}');
             insert_property({{ device.id }}, 'Software', '{{device.data.sw_desc}}');
             insert_property({{ device.id }}, 'Hardware', '{{device.data.hw_desc}}');
-            insert_property({{ device.id }}, 'Manufacturer', '{{device.data.mfr_desc}}');
-            insert_property({{ device.id }}, 'Serial Number', '{{device.data.serial_num}}');
+            {#insert_property({{ device.id }}, 'Manufacturer', '{{device.data.mfr_desc}}');#}
+            {#insert_property({{ device.id }}, 'Serial Number', '{{device.data.serial_num}}');#}
         {% endfor %}
 
 

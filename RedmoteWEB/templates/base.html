@@ -20,7 +20,8 @@
 <body>
 {% include "navbar.html" %}
 
-<div class="container-fluid flex-wrap row" style="min-height: 90vh; background-image: url(http://thepatternlibrary.com/img/ao.gif); padding-top: 10px">
+<div class="container-fluid flex-wrap row"
+     style="min-height: 90vh; background-image: url(http://thepatternlibrary.com/img/ao.gif); padding-top: 10px">
     <div id="content-div" class="col-12">
         {% block content %}
         {% endblock %}
@@ -38,6 +39,7 @@
 <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 <script>
     hideDetailPanel();
+    let on_screen = -1;
 
     $("#detail-panel .close").click(function () {
         hideDetailPanel();
@@ -45,14 +47,16 @@
 
     $(".device-card").click(function () {
         let detailPanel = $("#detail-panel");
-        if (detailPanel.is(":hidden"))
-            showDetailPanel();
+        if (detailPanel.is(":hidden") || on_screen !== this.id)
+            showDetailPanel(this.id);
         else
             hideDetailPanel();
     });
 
-    function showDetailPanel() {
+    function showDetailPanel(id) {
+        on_screen = id;
         $("#detail-panel").show();
+        document.getElementById('card-title').innerHTML = "Switch : " + $('#' + id).attr("data-pid");
         $("#content-div").addClass("col-9").removeClass("col-12");
     }
 
@@ -60,6 +64,100 @@
         $("#detail-panel").hide();
         $("#content-div").addClass("col-12").removeClass("col-9");
     }
+</script>
+<!-- Addresses -->
+<script>
+    function add_port_info_item(id, tag, value) {
+        $("#port-" + id).append(
+            '<div class="input-group input-group-sm mb-3">\n' +
+            '     <div class="input-group-prepend">\n' +
+            '       <span class="input-group-text">' +
+            tag +
+            '       </span>\n' +
+            '     </div>\n' +
+            '     <span type="text" class="form-control _name non-editable">' +
+            value +
+            '     </span>\n' +
+            '</div>'
+        );
+    }
+
+    function add_port_info(id, mac, name, speed) {
+        let portList = $("#port-list");
+        portList.append('' +
+            '<li class="list-group-item list-group-item-action list-group-item-light active" style="margin: 5px">Port ' +
+            id +
+            '</li>\n' +
+            '                    <li id="port-list" class="">' +
+            '                        <div class="card-body" id="port-' +
+            id +
+            '">' +
+            '</li>' +
+            '');
+        add_port_info_item(id, 'MAC', mac);
+        add_port_info_item(id, 'Name', name);
+        add_port_info_item(id, 'Speed', speed);
+        portList.append('</div');
+    }
+
+    add_port_info(2, 'xxxxxx', 'seth', '10000000');
+    add_port_info(3, 'xxxxxx', 'seth', '10000000');
+    add_port_info(4, 'xxxxxx', 'seth', '10000000');
+    add_port_info(5, 'xxxxxx', 'seth', '10000000');
+</script>
+<!-- Static Routes -->
+<script>
+    function add_address(ip) {
+        $("#address-list").append(
+            '<div class="input-group input-group-sm mb-3">\n' +
+            '     <div class="input-group-prepend">\n' +
+            '       <span class="input-group-text">' +
+            "ip" +
+            '       </span>\n' +
+            '     </div>\n' +
+            '     <span type="text" class="form-control _name non-editable">' +
+            ip +
+            '     </span>\n' +
+            '<div class="input-group-append">\n' +
+            '    <button type="button" class="btn btn-primary btn-sm btn-danger">del</button>' +
+            '  </div>' +
+            '</div>'
+        );
+    }
+
+    add_address('172.16.20.1');
+    add_address('172.16.30.30');
+</script>
+<script>
+    function add_static_route(destination, gateway) {
+        $("#routes-list").append(
+            '<div class="input-group input-group-sm">\n' +
+            '     <div class="input-group-prepend">\n' +
+            '       <span class="input-group-text">' +
+            "dest" +
+            '       </span>\n' +
+            '     </div>\n' +
+            '     <span type="text" class="form-control _name non-editable">' +
+            destination +
+            '     </span>\n' +
+            '<div class="input-group input-group-sm mb-3">\n' +
+            '     <div class="input-group-prepend">\n' +
+            '       <span class="input-group-text">' +
+            "gateway" +
+            '       </span>\n' +
+            '     </div>\n' +
+            '     <span type="text" class="form-control _name non-editable">' +
+            gateway +
+            '     </span>\n' +
+            '<div class="input-group-append">\n' +
+            '    <button type="button" class="btn btn-primary btn-sm btn-danger">del</button>' +
+            '  </div>' +
+            '</div>'
+        );
+    }
+
+    add_static_route('172.16.20.0', 'x.x.x.x');
+    add_static_route('172.16.30.0', 'x.x.x.x');
 </script>
 {% block scripts %}
 {% endblock %}
