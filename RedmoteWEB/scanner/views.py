@@ -9,11 +9,15 @@ from django.http import HttpResponse, JsonResponse
 
 
 def index(request):
-    context = {
-        'devices': switches_info()["data"],
-        'layer2': layer2_info()["data"],
-        'layer3': layer3_info()["data"],
-    }
+    try:
+        context = {
+            'devices': switches_info()["data"],
+            'layer2': layer2_info()["data"],
+            'layer3': layer3_info()["data"],
+        }
+    except Exception as e:
+        print(e)
+        context = {}
 
     return render(request, 'scanner/device-list.html', context)
 
