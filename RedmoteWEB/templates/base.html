@@ -152,7 +152,9 @@
         $("#address-list").append(
             '<form method="post">' +
             '{% csrf_token %}' +
-            '<input type="text" name="switch_id" id="del-add-switch-id" hidden>' +
+            '<input type="text" name="switch_id" id="del-add-switch-id' +
+            id +
+            '" hidden>' +
             '<input type="text" name="action" value="DEL_ADDRESS" hidden>' +
             '<input type="text" name="address_id" value="' +
             id +
@@ -169,7 +171,9 @@
             '     </span>\n' +
             '<div class="input-group-append">\n' +
             '    <button type="submit" class="btn btn-primary btn-sm btn-danger"' +
-            ' onclick="$(\'#del-add-switch-id\').attr(\'value\', on_screen.split(\'_\')[2])">del</button>' +
+            ' onclick="$(\'#del-add-switch-id' +
+            id +
+            '\').attr(\'value\', on_screen.split(\'_\')[2])">del</button>' +
             '  </div>' +
             '</div>' +
             '</form>'
