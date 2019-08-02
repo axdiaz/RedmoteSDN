@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from scanner.sdn_interfaces import SwitchApi
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 def index(request):
@@ -48,3 +49,9 @@ def index(request):
         }]
 
     return render(request, 'scanner/device-list.html', {"devices": api_result})
+
+
+def json_switches_info(request):
+    api = SwitchApi()
+    data = api.get_switch_info()
+    return JsonResponse(data)
