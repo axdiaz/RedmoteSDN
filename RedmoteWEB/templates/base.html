@@ -87,6 +87,7 @@
         update_panel_device_info(actual_id);
         update_panel_layer2(actual_id);
         update_panel_addresses(actual_id);
+        update_panel_routes(actual_id);
         $("#detail-panel").show();
         document.getElementById('card-title').innerHTML = "Switch : " + $('#' + id).attr("data-pid");
         $("#content-div").addClass("col-9").removeClass("col-12");
@@ -201,8 +202,17 @@
     add_address('172.16.30.30');
 </script>
 <script>
-    function add_static_route(destination, gateway) {
+    function add_static_route(id, destination, gateway) {
         $("#routes-list").append(
+            '<form method="post">' +
+            '{% csrf_token %}' +
+            '<input type="text" name="switch_id" id="del-route-switch-id' +
+            id +
+            '" hidden>' +
+            '<input type="text" name="action" value="DEL_STATIC_ROUTE" hidden>' +
+            '<input type="text" name="route_id" value="' +
+            id +
+            '" hidden>' +
             '<div class="input-group input-group-sm">\n' +
             '     <div class="input-group-prepend">\n' +
             '       <span class="input-group-text">' +
@@ -222,12 +232,31 @@
             gateway +
             '     </span>\n' +
             '<div class="input-group-append">\n' +
-            '    <button type="button" class="btn btn-primary btn-sm btn-danger">del</button>' +
+            '<button type="submit" class="btn btn-primary btn-sm btn-danger"' +
+            ' onclick="$(\'#del-route-switch-id' +
+            id +
+            '\').attr(\'value\', on_screen.split(\'_\')[2])">del</button>' +
             '  </div>' +
-            '</div>'
+            '</div>' +
+            '</form>'
         );
     }
 
+
+    function update_panel_routes(id) {
+        document.getElementById("routes-list").innerHTML = "";
+        let index_id = 0;
+        $.each(layer3, function (index) {
+            if (layer3[index].switch_id == id)
+                index_id = index;
+        });
+        console.log(layer3[index_id]);
+        if (layer3[index_id].internal_network[0].route !== undefined) {
+            $.each(layer3[index_id].internal_network[0].route, function (id, __route) {
+                add_static_route(__route.route_id, __route.destination, __route.gateway)
+            });
+        }
+    }
     add_static_route('172.16.20.0', 'x.x.x.x');
     add_static_route('172.16.30.0', 'x.x.x.x');
 </script>

@@ -10,23 +10,30 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" name="switch_id" id="modal-route-switch-id" hidden>
+                    <input type="text" name="action" value="ADD_STATIC_ROUTE" hidden>
                     <div class="form-group">
                         <label for="inputDestination">Destination Network: </label>
                         <input type="text" class="form-control" id="inputDestination"
-                               placeholder="Enter destination" name="destination">
+                               placeholder="Enter destination" name="destination" required>
                     </div>
                     <div class="form-group">
                         <label for="inputNextHop">Next Hop IP address: </label>
                         <input type="text" class="form-control" id="inputNextHop"
-                               placeholder="Enter Next Hop IP Address" name="destination">
+                               placeholder="Enter Next Hop IP Address" name="gateway" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="btn-submit-address"
+                                onclick="$('#modal-route-switch-id').attr('value', on_screen.split('_')[2])">
+                            Save changes
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+
         </div>
     </div>
 </div>
