@@ -10,7 +10,6 @@ from django.http import HttpResponse, JsonResponse
 
 def index(request):
     # context = {'devices': [{'id': 1}, {'id': 2}, {'id': 3}, {'id': 4}]}
-    print(switches_info()["data"])
     context = {
         'devices': switches_info()["data"],
         'layer2': layer2_info()["data"],
