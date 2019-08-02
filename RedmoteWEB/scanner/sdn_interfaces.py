@@ -30,7 +30,7 @@ class SwitchApi:
                     ("flow_data", switch_flow_response.json()[str(switch)])
                 ]))
 
-        switch_info['data'] = filter_switches
+        switch_info['data'] = {'switches': filter_switches}
 
         return switch_info
 
