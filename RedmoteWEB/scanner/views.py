@@ -14,6 +14,10 @@ def index(request):
         add_address(request)
     if action == "DEL_ADDRESS":
         del_address(request)
+    if action == "ADD_STATIC_ROUTE":
+        add_static_route(request)
+    if action == "DEL_STATIC_ROUTE":
+        del_static_route(request)
     try:
         context = {
             'devices': switches_info()["data"],
@@ -237,12 +241,34 @@ def layer3_info():
         data = SwitchApi().get_switch_layer_three_info()
     except Exception as e:
         data = {
-            "status_code": 200, "data": [{"internal_network": [{"address": [
-            {"address_id": 3, "address": "192.168.0.10/32"}, {"address_id": 1, "address": "192.168.0.1/32"},
-            {"address_id": 2, "address": "192.168.0.2/32"}]}], "switch_id": "1"},
-            {"internal_network": [{}], "switch_id": "2"},
-            {"internal_network": [{}], "switch_id": "3"},
-            {"internal_network": [{}], "switch_id": "4"}]}
+            "status_code": 200, "data": [{"internal_network": [
+                {
+                    "route": [
+                        {
+                            "route_id": 1,
+                            "destination": "0.0.0.0/0",
+                            "gateway": "172.16.30.30"
+                        },
+                        {
+                            "route_id": 2,
+                            "destination": "192.168.30.0/24",
+                            "gateway": "192.168.10.20"
+                        },
+                        {
+                            "route_id": 3,
+                            "destination": "192.168.50.0/24",
+                            "gateway": "192.168.10.20"
+                        }
+                    ],
+                    "address": [
+                        {"address_id": 3, "address": "192.168.0.10/32"}, {"address_id": 1, "address": "192.168.0.1/32"},
+                        {"address_id": 2, "address": "192.168.0.2/32"}
+                    ]}
+                ],
+                "switch_id": "1"},
+                {"internal_network": [{}], "switch_id": "2"},
+                {"internal_network": [{}], "switch_id": "3"},
+                {"internal_network": [{}], "switch_id": "4"}]}
         print(e)
     return data
 
@@ -260,6 +286,25 @@ def del_address(request):
     address_id = request.POST.get("address_id", "")
     switch_id = request.POST.get("switch_id", "")
     if settings.DEBUG:
-        print("DELETE {}: {}".format(switch_id, address_id))
+        print("DELETE switch: {} :: address: {}".format(switch_id, address_id))
     else:
         SwitchApi().delete_address(switch_id, address_id)
+
+
+def add_static_route(request):
+    switch_id = request.POST.get("switch_id", "")
+    destination = request.POST.get("destination", "")
+    gateway = request.POST.get("gateway", "")
+    if settings.DEBUG:
+        print("ADDING ROUTE: id {}, destination {}, gateway{}".format(switch_id, destination, gateway))
+    else:
+        SwitchApi().set_static_route(switch_id, destination, gateway)
+
+
+def del_static_route(request):
+    route_id = request.POST.get("route_id", "")
+    switch_id = request.POST.get("switch_id", "")
+    if settings.DEBUG:
+        print("DELETE switch: {} :: route: {}".format(switch_id, route_id))
+    else:
+        SwitchApi().delete_static_route(switch_id, route_id)
