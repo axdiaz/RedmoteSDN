@@ -5,6 +5,7 @@
     <script>
         let devices = {};
         let layer2 = {{ layer2 | safe }};
+        let layer3 = {{ layer3 | safe }}
         {% for device in devices %}
             devices[{{ device.id }}] = {{ device | safe }};
         {% endfor %}

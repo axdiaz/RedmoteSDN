@@ -51,7 +51,7 @@ class SwitchApi:
         print(switch_info)
         return switch_info
 
-    def get_switch_layer_three_info(self, router_id):
+    def get_switch_layer_three_info(self, router_id=None):
         response = requests.get(
             self.base_url_router + ("000000000000000" + router_id) if router_id is not None else "all/all")
         layer_two_response = SwitchApi.headers(response)

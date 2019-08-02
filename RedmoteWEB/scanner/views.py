@@ -14,6 +14,7 @@ def index(request):
     context = {
         'devices': switches_info()["data"],
         'layer2': layer2_info()["data"],
+        'layer3': layer3_info()["data"],
     }
 
     return render(request, 'scanner/device-list.html', context)
@@ -144,79 +145,94 @@ def layer2_info():
     if settings.DEBUG:
         return {
             "status_code": 200, "data": [{"id": 1, "port_data": [
-            {"hw_addr": "de:61:a0:28:0a:47", "curr": 0, "supported": 0, "max_speed": 0, "advertised": 0, "peer": 0,
-             "port_no": "LOCAL", "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
-            {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0, "max_speed": 0, "advertised": 0, "peer": 0,
-             "port_no": 1, "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
-            {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0, "max_speed": 0, "advertised": 0, "peer": 0,
-             "port_no": 2, "curr_speed": 10000000, "name": "s1-eth2", "state": 0, "config": 0}]},
-                                             {"id": 1,
-                                              "port_data": [{
-                                                  "hw_addr": "de:61:a0:28:0a:47",
-                                                  "curr": 0,
+                {"hw_addr": "de:61:a0:28:0a:47", "curr": 0, "supported": 0, "max_speed": 0, "advertised": 0, "peer": 0,
+                 "port_no": "LOCAL", "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
+                {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0, "max_speed": 0, "advertised": 0,
+                 "peer": 0,
+                 "port_no": 1, "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
+                {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0, "max_speed": 0, "advertised": 0,
+                 "peer": 0,
+                 "port_no": 2, "curr_speed": 10000000, "name": "s1-eth2", "state": 0, "config": 0}]},
+                                         {"id": 1,
+                                          "port_data": [{
+                                              "hw_addr": "de:61:a0:28:0a:47",
+                                              "curr": 0,
+                                              "supported": 0,
+                                              "max_speed": 0,
+                                              "advertised": 0,
+                                              "peer": 0,
+                                              "port_no": "LOCAL",
+                                              "curr_speed": 0,
+                                              "name": "s1",
+                                              "state": 1,
+                                              "config": 1},
+                                              {
+                                                  "hw_addr": "d2:af:e8:2f:16:11",
+                                                  "curr": 2112,
                                                   "supported": 0,
                                                   "max_speed": 0,
                                                   "advertised": 0,
                                                   "peer": 0,
-                                                  "port_no": "LOCAL",
-                                                  "curr_speed": 0,
-                                                  "name": "s1",
-                                                  "state": 1,
-                                                  "config": 1},
-                                                  {
-                                                      "hw_addr": "d2:af:e8:2f:16:11",
-                                                      "curr": 2112,
-                                                      "supported": 0,
-                                                      "max_speed": 0,
-                                                      "advertised": 0,
-                                                      "peer": 0,
-                                                      "port_no": 1,
-                                                      "curr_speed": 10000000,
-                                                      "name": "s1-eth1",
-                                                      "state": 0,
-                                                      "config": 0},
-                                                  {
-                                                      "hw_addr": "fa:8f:b3:5a:78:4b",
-                                                      "curr": 2112,
-                                                      "supported": 0,
-                                                      "max_speed": 0,
-                                                      "advertised": 0,
-                                                      "peer": 0,
-                                                      "port_no": 2,
-                                                      "curr_speed": 10000000,
-                                                      "name": "s1-eth2",
-                                                      "state": 0,
-                                                      "config": 0}]},
-                                             {"id": 2, "port_data": [
-                                                 {"hw_addr": "de:61:a0:28:0a:22", "curr": 0, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": "LOCAL",
-                                                  "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
-                                                 {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 1,
-                                                  "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
-                                                 {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 2,
-                                                  "curr_speed": 10000000, "name": "s1-eth2", "state": 0, "config": 0}]},
-                                             {"id": 3, "port_data": [
-                                                 {"hw_addr": "de:61:a0:28:0a:33", "curr": 0, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": "LOCAL",
-                                                  "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
-                                                 {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 1,
-                                                  "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
-                                                 {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 2,
-                                                  "curr_speed": 10000000, "name": "s1-eth2", "state": 0, "config": 0}]},
-                                             {"id": 4, "port_data": [
-                                                 {"hw_addr": "de:61:a0:28:0a:44", "curr": 0, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": "LOCAL",
-                                                  "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
-                                                 {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 1,
-                                                  "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
-                                                 {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0,
-                                                  "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 2,
-                                                  "curr_speed": 10000000, "name": "s1-eth2", "state": 0,
-                                                  "config": 0}]}]}
+                                                  "port_no": 1,
+                                                  "curr_speed": 10000000,
+                                                  "name": "s1-eth1",
+                                                  "state": 0,
+                                                  "config": 0},
+                                              {
+                                                  "hw_addr": "fa:8f:b3:5a:78:4b",
+                                                  "curr": 2112,
+                                                  "supported": 0,
+                                                  "max_speed": 0,
+                                                  "advertised": 0,
+                                                  "peer": 0,
+                                                  "port_no": 2,
+                                                  "curr_speed": 10000000,
+                                                  "name": "s1-eth2",
+                                                  "state": 0,
+                                                  "config": 0}]},
+                                         {"id": 2, "port_data": [
+                                             {"hw_addr": "de:61:a0:28:0a:22", "curr": 0, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": "LOCAL",
+                                              "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
+                                             {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 1,
+                                              "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
+                                             {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 2,
+                                              "curr_speed": 10000000, "name": "s1-eth2", "state": 0, "config": 0}]},
+                                         {"id": 3, "port_data": [
+                                             {"hw_addr": "de:61:a0:28:0a:33", "curr": 0, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": "LOCAL",
+                                              "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
+                                             {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 1,
+                                              "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
+                                             {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 2,
+                                              "curr_speed": 10000000, "name": "s1-eth2", "state": 0, "config": 0}]},
+                                         {"id": 4, "port_data": [
+                                             {"hw_addr": "de:61:a0:28:0a:44", "curr": 0, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": "LOCAL",
+                                              "curr_speed": 0, "name": "s1", "state": 1, "config": 1},
+                                             {"hw_addr": "d2:af:e8:2f:16:bb", "curr": 2112, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 1,
+                                              "curr_speed": 10000000, "name": "s1-eth1", "state": 0, "config": 0},
+                                             {"hw_addr": "fa:8f:b3:5a:78:4b", "curr": 2112, "supported": 0,
+                                              "max_speed": 0, "advertised": 0, "peer": 0, "port_no": 2,
+                                              "curr_speed": 10000000, "name": "s1-eth2", "state": 0,
+                                              "config": 0}]}]}
     else:
         return SwitchApi().get_switch_layer_two_info()
+
+
+def layer3_info():
+    if settings.DEBUG:
+        return {
+            "status_code": 200, "data": [{"internal_network": [{"address": [
+                {"address_id": 3, "address": "192.168.0.10/32"}, {"address_id": 1, "address": "192.168.0.1/32"},
+                {"address_id": 2, "address": "192.168.0.2/32"}]}], "switch_id": "1"},
+                {"internal_network": [{}], "switch_id": "2"},
+                {"internal_network": [{}], "switch_id": "3"},
+                {"internal_network": [{}], "switch_id": "4"}]}
+    else:
+        return SwitchApi().get_switch_layer_three_info()
