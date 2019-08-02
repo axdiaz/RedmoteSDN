@@ -227,12 +227,6 @@ def layer3_info():
     try:
         data = SwitchApi().get_switch_layer_three_info()
     except Exception as e:
-        data = {
-            "status_code": 200, "data": [{"internal_network": [{"address": [
-            {"address_id": 3, "address": "192.168.0.10/32"}, {"address_id": 1, "address": "192.168.0.1/32"},
-            {"address_id": 2, "address": "192.168.0.2/32"}]}], "switch_id": "1"},
-            {"internal_network": [{}], "switch_id": "2"},
-            {"internal_network": [{}], "switch_id": "3"},
-            {"internal_network": [{}], "switch_id": "4"}]}
+        data = {'data': ''}
         print(e)
     return data
