@@ -86,6 +86,7 @@
         let actual_id = id.split("_")[2];
         update_panel_device_info(actual_id);
         update_panel_layer2(actual_id);
+        update_panel_addresses(actual_id);
         $("#detail-panel").show();
         document.getElementById('card-title').innerHTML = "Switch : " + $('#' + id).attr("data-pid");
         $("#content-div").addClass("col-9").removeClass("col-12");
@@ -131,7 +132,7 @@
         portList.append('</div');
     }
 
-    function update_panel_layer2(id){
+    function update_panel_layer2(id) {
         document.getElementById("panel_layer2_info").innerHTML = "";
         let index_id = 0;
         $.each(layer2, function (index) {
@@ -143,20 +144,17 @@
         });
 
     }
-
-    add_port_info(3, 'xxxxxx', 'seth', '10000000');
-    add_port_info(4, 'xxxxxx', 'seth', '10000000');
-    add_port_info(5, 'xxxxxx', 'seth', '10000000');
 </script>
 <!-- Static Routes -->
 <!-- Addresses -->
 <script>
-    function add_address(ip) {
+    function add_address(id, ip) {
         $("#address-list").append(
             '<div class="input-group input-group-sm mb-3">\n' +
             '     <div class="input-group-prepend">\n' +
             '       <span class="input-group-text">' +
-            "ip" +
+            "ip-" +
+            id +
             '       </span>\n' +
             '     </div>\n' +
             '     <span type="text" class="form-control _name non-editable">' +
@@ -167,6 +165,23 @@
             '  </div>' +
             '</div>'
         );
+    }
+
+    function update_panel_addresses(id) {
+        document.getElementById("address-list").innerHTML = "";
+        let index_id = 0;
+        $.each(layer3, function (index) {
+            if (layer3[index].switch_id == id)
+                index_id = index;
+        });
+        console.log(layer3[index_id]);
+        if (layer3[index_id].internal_network[0].address !== undefined) {
+            $.each(layer3[index_id].internal_network[0].address, function (id, __address) {
+                console.log(__address);
+                add_address(__address.address_id, __address.address);
+            });
+        }
+
     }
 
     add_address('172.16.20.1');
