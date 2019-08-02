@@ -298,7 +298,7 @@ def add_static_route(request):
     if settings.DEBUG:
         print("ADDING ROUTE: id {}, destination {}, gateway{}".format(switch_id, destination, gateway))
     else:
-        SwitchApi().set_static_route(switch_id, destination, gateway)
+        print(SwitchApi().set_static_route(switch_id, destination, gateway))
 
 
 def del_static_route(request):
@@ -307,4 +307,4 @@ def del_static_route(request):
     if settings.DEBUG:
         print("DELETE switch: {} :: route: {}".format(switch_id, route_id))
     else:
-        SwitchApi().delete_static_route(switch_id, route_id)
+        print(SwitchApi().delete_static_route(switch_id, route_id))
