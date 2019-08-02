@@ -12,6 +12,8 @@ def index(request):
     action = request.POST.get("action", None)
     if action == "ADD_ADDRESS":
         add_address(request)
+    if action == "DEL_ADDRESS":
+        del_address(request)
     try:
         context = {
             'devices': switches_info()["data"],
@@ -246,3 +248,12 @@ def add_address(request):
         print("{}: {}".format(switch_id, address))
     else:
         SwitchApi().set__address(switch_id, address)
+
+
+def del_address(request):
+    address_id = request.POST.get("address_id", "")
+    switch_id = request.POST.get("switch_id", "")
+    if settings.DEBUG:
+        print("DELETE {}: {}".format(switch_id, address_id))
+    else:
+        SwitchApi().delete_address(switch_id, address_id)

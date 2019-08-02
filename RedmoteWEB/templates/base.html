@@ -150,6 +150,13 @@
 <script>
     function add_address(id, ip) {
         $("#address-list").append(
+            '<form method="post">' +
+            '{% csrf_token %}' +
+            '<input type="text" name="switch_id" id="del-add-switch-id" hidden>' +
+            '<input type="text" name="action" value="DEL_ADDRESS" hidden>' +
+            '<input type="text" name="address_id" value="' +
+            id +
+            '" hidden>' +
             '<div class="input-group input-group-sm mb-3">\n' +
             '     <div class="input-group-prepend">\n' +
             '       <span class="input-group-text">' +
@@ -161,9 +168,11 @@
             ip +
             '     </span>\n' +
             '<div class="input-group-append">\n' +
-            '    <button type="button" class="btn btn-primary btn-sm btn-danger">del</button>' +
+            '    <button type="submit" class="btn btn-primary btn-sm btn-danger"' +
+            ' onclick="$(\'#del-add-switch-id\').attr(\'value\', on_screen.split(\'_\')[2])">del</button>' +
             '  </div>' +
-            '</div>'
+            '</div>' +
+            '</form>'
         );
     }
 
