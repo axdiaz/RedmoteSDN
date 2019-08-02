@@ -49,6 +49,7 @@ class SwitchApi:
         print(ports_desc_switches)
         switch_info['data'] = ports_desc_switches
         print(switch_info)
+        return switch_info
 
     def get_switch_layer_three_info(self, router_id):
         response = requests.get(
