@@ -3,122 +3,125 @@ import requests
 
 class SwitchApi:
 
-    def __init__(self):
-        base_url = "http://localhost:8080/stats/"
-        base_url_router = "http://localhost:8080/router/"
+    def _init_(self):
+        self.base_url = "http://localhost:8080/stats/"
+        self.base_url_router = "http://localhost:8080/router/"
 
-        def __headers__(response):
-            return {"status_code": response.status_code}
+    @staticmethod
+    def headers(response):
+        return {"status_code": response.status_code}
 
-        # GETTERS
-        def __get_switch_info__():
-            response = requests.get(base_url + "switches")
+    # GETTERS
+    def get_switch_info(self):
+        response = requests.get(self.base_url + "switches")
 
-            # setting headers
-            switch_info = __headers__(response)
-            # setting info
-            filter_switches = []
+        # setting headers
+        switch_info = SwitchApi.headers(response)
+        # setting info
+        filter_switches = []
 
-            for switch in response.json():
-                switch_desc_response = requests.get(base_url + "desc/" + str(switch))
-                switch_flow_response = requests.get(base_url + "flow/" + str(switch))
-                filter_switches.append(dict(
-                    [
-                        ("id", switch),
-                        ("desc_data", switch_desc_response.json()[str(switch)]),
-                        ("flow_data", switch_flow_response.json()[str(switch)])
-                    ]))
-
-            switch_info['data'] = filter_switches
-
-            print(switch_info)
-
-            return switch_info
-
-        def __get_switch_layer_two_info__():
-            response = requests.get(base_url + "switches")
-            ports_desc_switches = []
-            switch_info = __headers__(response)
-
-            for switch in response.json():
-                ports_desc_response = requests.get(base_url + "portdesc/" + str(switch))
-                ports_desc_switches.append(dict([
+        for switch in response.json():
+            switch_desc_response = requests.get(self.base_url + "desc/" + str(switch))
+            switch_flow_response = requests.get(self.base_url + "flow/" + str(switch))
+            filter_switches.append(dict(
+                [
                     ("id", switch),
-                    ("port_data", ports_desc_response.json()[str(switch)])
+                    ("desc_data", switch_desc_response.json()[str(switch)]),
+                    ("flow_data", switch_flow_response.json()[str(switch)])
                 ]))
 
-            print(ports_desc_switches)
-            switch_info['data'] = ports_desc_switches
-            print(switch_info)
+        switch_info['data'] = filter_switches
 
-        def __get_switch_layer_three_info__(router_id):
-            response = requests.get(
-                base_url_router + ("000000000000000" + router_id) if router_id is not None else "all/all")
-            layer_two_response = __headers__(response)
-            layer_two_response['data'] = response.json()
+        print(switch_info)
 
-            for item in layer_two_response['data']:
-                item['switch_id'] = item['switch_id'][-1]
+        return switch_info
 
-            print(layer_two_response)
-            return layer_two_response
+    def get_switch_layer_two_info(self):
+        response = requests.get(self.base_url + "switches")
+        ports_desc_switches = []
+        switch_info = SwitchApi.headers(response)
 
-        # SETTERS
-        def __set__adress__(switch_id, address):
-            response = requests.post(base_url_router + "000000000000000" + switch_id, json=dict([("address", address)]))
-            set_address_response = __headers__(response)
-            set_address_response['data'] = response.json()
+        for switch in response.json():
+            ports_desc_response = requests.get(self.base_url + "portdesc/" + str(switch))
+            ports_desc_switches.append(dict([
+                ("id", switch),
+                ("port_data", ports_desc_response.json()[str(switch)])
+            ]))
 
-            for item in set_address_response['data']:
-                item['switch_id'] = item['switch_id'][-1]
-                print(item['switch_id'])
+        print(ports_desc_switches)
+        switch_info['data'] = ports_desc_switches
+        print(switch_info)
 
-            return set_address_response
+    def get_switch_layer_three_info(self, router_id):
+        response = requests.get(
+            self.base_url_router + ("000000000000000" + router_id) if router_id is not None else "all/all")
+        layer_three_response = SwitchApi.headers(response)
+        layer_three_response['data'] = response.json()
 
-        def __set__default_route__(switch_id, gateway):
-            response = requests.post(base_url_router + "000000000000000" + switch_id, json=dict([("gateway", gateway)]))
-            set_address_response = __headers__(response)
-            set_address_response['data'] = response.json()
+        for item in layer_three_response['data']:
+            item['switch_id'] = item['switch_id'][-1]
 
-            for item in set_address_response['data']:
-                item['switch_id'] = item['switch_id'][-1]
-                print(item['switch_id'])
+        print(layer_three_response)
+        return layer_three_response
 
-            return set_address_response
+    # SETTERS
+    def set__address(self, switch_id, address):
+        response = requests.post(self.base_url_router + "000000000000000" + switch_id,
+                                 json=dict([("address", address)]))
+        set_address_response = SwitchApi.headers(response)
+        set_address_response['data'] = response.json()
 
-        def __set_static_route__(switch_id, destination, gateway):
-            response = requests.post(base_url_router + "000000000000000" + switch_id,
-                                     json=dict([("destination", destination), ("gateway", gateway)]))
-            set_address_response = __headers__(response)
-            set_address_response['data'] = response.json()
+        for item in set_address_response['data']:
+            item['switch_id'] = item['switch_id'][-1]
+            print(item['switch_id'])
 
-            for item in set_address_response['data']:
-                item['switch_id'] = item['switch_id'][-1]
-                print(item['switch_id'])
+        return set_address_response
 
-            return set_address_response
+    def set__default_route(self, switch_id, gateway):
+        response = requests.post(self.base_url_router + "000000000000000" + switch_id,
+                                 json=dict([("gateway", gateway)]))
+        set_address_response = SwitchApi.headers(response)
+        set_address_response['data'] = response.json()
 
-        # DELETE
-        def __delete_address__(switch_id, address_id):
-            response = requests.delete(base_url_router + "000000000000000" + switch_id,
-                                       json=dict([("address_id", address_id)]))
-            set_address_response = __headers__(response)
-            set_address_response['data'] = response.json()
+        for item in set_address_response['data']:
+            item['switch_id'] = item['switch_id'][-1]
+            print(item['switch_id'])
 
-            for item in set_address_response['data']:
-                item['switch_id'] = item['switch_id'][-1]
-                print(item['switch_id'])
+        return set_address_response
 
-            return set_address_response
+    def set_static_route(self, switch_id, destination, gateway):
+        response = requests.post(self.base_url_router + "000000000000000" + switch_id,
+                                 json=dict([("destination", destination), ("gateway", gateway)]))
+        set_address_response = SwitchApi.headers(response)
+        set_address_response['data'] = response.json()
 
-        def __delete_static_route__(switch_id, route_id):
-            response = requests.delete(base_url_router + "000000000000000" + switch_id,
-                                       json=dict([("route_id", route_id)]))
-            set_address_response = __headers__(response)
-            set_address_response['data'] = response.json()
+        for item in set_address_response['data']:
+            item['switch_id'] = item['switch_id'][-1]
+            print(item['switch_id'])
 
-            for item in set_address_response['data']:
-                item['switch_id'] = item['switch_id'][-1]
-                print(item['switch_id'])
+        return set_address_response
 
-            return set_address_response
+    # DELETE
+    def delete_address(self, switch_id, address_id):
+        response = requests.delete(self.base_url_router + "000000000000000" + switch_id,
+                                   json=dict([("address_id", address_id)]))
+        set_address_response = SwitchApi.headers(response)
+        set_address_response['data'] = response.json()
+
+        for item in set_address_response['data']:
+            item['switch_id'] = item['switch_id'][-1]
+            print(item['switch_id'])
+
+        return set_address_response
+
+    def delete_static_route(self, switch_id, route_id):
+        response = requests.delete(self.base_url_router + "000000000000000" + switch_id,
+                                   json=dict([("route_id", route_id)]))
+        set_address_response = SwitchApi.headers(response)
+        set_address_response['data'] = response.json()
+
+        for item in set_address_response['data']:
+            item['switch_id'] = item['switch_id'][-1]
+            print(item['switch_id'])
+
+        return set_address_response
