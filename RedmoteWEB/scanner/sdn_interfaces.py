@@ -45,10 +45,7 @@ class SwitchApi:
                 ("id", switch),
                 ("port_data", ports_desc_response.json()[str(switch)])
             ]))
-
-        print(ports_desc_switches)
         switch_info['data'] = ports_desc_switches
-        print(switch_info)
         return switch_info
 
     def get_switch_layer_three_info(self, router_id=None):
@@ -60,7 +57,6 @@ class SwitchApi:
         for item in layer_two_response['data']:
             item['switch_id'] = item['switch_id'][-1]
 
-        print(layer_two_response)
         return layer_two_response
 
     # SETTERS
