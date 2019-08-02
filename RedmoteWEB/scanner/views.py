@@ -13,7 +13,7 @@ def index(request):
     print(switches_info()["data"])
     context = {
         'devices': switches_info()["data"],
-        'layer2': layer2_info()["data"]
+        'layer2': layer2_info()["data"],
     }
 
     return render(request, 'scanner/device-list.html', context)
