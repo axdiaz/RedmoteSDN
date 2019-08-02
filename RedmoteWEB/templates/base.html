@@ -133,8 +133,12 @@
 
     function update_panel_layer2(id){
         document.getElementById("panel_layer2_info").innerHTML = "";
-        $.each(layer2[id].port_data, function (id, port) {
-            console.log(port);
+        let index_id = 0;
+        $.each(layer2, function (index) {
+            if (layer2[index].id == id)
+                index_id = index;
+        });
+        $.each(layer2[index_id].port_data, function (id, port) {
             add_port_info(id, port.hw_addr, port.name, port.curr_speed);
         });
 
