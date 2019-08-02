@@ -38,6 +38,33 @@
 <!-- All that javascript -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<!-- Device info -->
+<script>
+    function insert_device_info(tag, value) {
+        $("#panel_device_info").append('' +
+            '<div class="input-group input-group-sm mb-3">\n' +
+            '    <div class="input-group-prepend">\n' +
+            '        <span class="input-group-text">' +
+            tag +
+            '        </span>\n' +
+            '    </div>\n' +
+            '    <span type="text" class="form-control _name non-editable">\n' +
+            value +
+            '    </span>\n' +
+            '</div>'
+        );
+    }
+
+    function update_panel_device_info(id) {
+        document.getElementById("panel_device_info").innerHTML = "";
+        insert_device_info('Device Name', devices[id].desc_data.dp_desc);
+        insert_device_info('Software', devices[id].desc_data.sw_desc);
+        insert_device_info('Hardware', devices[id].desc_data.hw_desc);
+        insert_device_info('Manufacturer', devices[id].desc_data.mfr_desc);
+        insert_device_info('Serial Number', devices[id].desc_data.serial_num);
+    }
+
+</script>
 <script>
     hideDetailPanel();
     let on_screen = -1;
@@ -56,6 +83,9 @@
 
     function showDetailPanel(id) {
         on_screen = id;
+        let actual_id = id.split("_")[2];
+        update_panel_device_info(actual_id);
+        update_panel_layer2(actual_id);
         $("#detail-panel").show();
         document.getElementById('card-title').innerHTML = "Switch : " + $('#' + id).attr("data-pid");
         $("#content-div").addClass("col-9").removeClass("col-12");
@@ -66,7 +96,7 @@
         $("#content-div").addClass("col-12").removeClass("col-9");
     }
 </script>
-<!-- Addresses -->
+<!-- Layer 2 -->
 <script>
     function add_port_info_item(id, tag, value) {
         $("#port-" + id).append(
@@ -84,7 +114,7 @@
     }
 
     function add_port_info(id, mac, name, speed) {
-        let portList = $("#port-list");
+        let portList = $("#panel_layer2_info");
         portList.append('' +
             '<li class="list-group-item list-group-item-action list-group-item-light active" style="margin: 5px">Port ' +
             id +
@@ -101,12 +131,21 @@
         portList.append('</div');
     }
 
-    add_port_info(2, 'xxxxxx', 'seth', '10000000');
+    function update_panel_layer2(id){
+        document.getElementById("panel_layer2_info").innerHTML = "";
+        $.each(layer2[id].port_data, function (id, port) {
+            console.log(port);
+            add_port_info(id, port.hw_addr, port.name, port.curr_speed);
+        });
+
+    }
+
     add_port_info(3, 'xxxxxx', 'seth', '10000000');
     add_port_info(4, 'xxxxxx', 'seth', '10000000');
     add_port_info(5, 'xxxxxx', 'seth', '10000000');
 </script>
 <!-- Static Routes -->
+<!-- Addresses -->
 <script>
     function add_address(ip) {
         $("#address-list").append(
