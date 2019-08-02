@@ -298,7 +298,10 @@ def add_static_route(request):
     if settings.DEBUG:
         print("ADDING ROUTE: id {}, destination {}, gateway{}".format(switch_id, destination, gateway))
     else:
-        print(SwitchApi().set_static_route(switch_id, destination, gateway))
+        try:
+            print(SwitchApi().set_static_route(switch_id, destination, gateway))
+        except Exception as e:
+            print(e)
 
 
 def del_static_route(request):
