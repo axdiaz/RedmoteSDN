@@ -236,6 +236,6 @@ def layer3_info():
         try:
             data = SwitchApi().get_switch_layer_three_info()
         except Exception as e:
-            data = {}
+            data = {"data": {}}
             print(e)
         return data
