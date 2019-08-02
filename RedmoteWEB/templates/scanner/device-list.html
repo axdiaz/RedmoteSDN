@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block environment %}
+    <script>
+        let devices = {};
+        {% for device in devices %}
+            devices[{{ device.id }}] = {{ device | safe }};
+        {% endfor %}
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="jumbotron jumbotron-fluid" style="background-color: rgba(10,10,10,.50); color: white">
         <div class="container">
@@ -53,14 +62,13 @@
                 '</div>'
             );
         }
-        {% for device in devices %}
-            insert_property({{ device.id }}, 'Device Name', '{{device.data.dp_desc}}');
-            insert_property({{ device.id }}, 'Software', '{{device.data.sw_desc}}');
-            insert_property({{ device.id }}, 'Hardware', '{{device.data.hw_desc}}');
+        console.log(devices);
+        $.each(devices, function (id, device) {
+            insert_property( device.id, 'Device Name', device.desc_data.dp_desc);
+            insert_property( device.id, 'Software', device.desc_data.sw_desc);
+            insert_property( device.id, 'Hardware', device.desc_data.hw_desc);
+        });
             {#insert_property({{ device.id }}, 'Manufacturer', '{{device.data.mfr_desc}}');#}
             {#insert_property({{ device.id }}, 'Serial Number', '{{device.data.serial_num}}');#}
-        {% endfor %}
-
-
     </script>
 {% endblock %}
