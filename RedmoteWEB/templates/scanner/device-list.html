@@ -4,6 +4,7 @@
 {% block environment %}
     <script>
         let devices = {};
+        let layer2 = {{ layer2 | safe }};
         {% for device in devices %}
             devices[{{ device.id }}] = {{ device | safe }};
         {% endfor %}
@@ -47,6 +48,7 @@
 
 {% block scripts %}
     <script>
+
         function insert_property(id, tag, value) {
             let device = "#device_" + id;
             $(device).append('' +
@@ -68,7 +70,5 @@
             insert_property( device.id, 'Software', device.desc_data.sw_desc);
             insert_property( device.id, 'Hardware', device.desc_data.hw_desc);
         });
-            {#insert_property({{ device.id }}, 'Manufacturer', '{{device.data.mfr_desc}}');#}
-            {#insert_property({{ device.id }}, 'Serial Number', '{{device.data.serial_num}}');#}
     </script>
 {% endblock %}
