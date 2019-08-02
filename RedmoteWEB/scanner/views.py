@@ -9,6 +9,9 @@ from django.http import HttpResponse, JsonResponse
 
 
 def index(request):
+    action = request.POST.get("action", None)
+    if action == "ADD_ADDRESS":
+        add_address(request)
     try:
         context = {
             'devices': switches_info()["data"],
@@ -17,7 +20,7 @@ def index(request):
         }
     except Exception as e:
         print(e)
-        context = {}
+        return HttpResponse("Please enable RYU")
 
     return render(request, 'scanner/device-list.html', context)
 
@@ -234,3 +237,12 @@ def layer3_info():
         data = {'data': ''}
         print(e)
     return data
+
+
+def add_address(request):
+    address = request.POST.get("address", "")
+    switch_id = request.POST.get("switch_id", "")
+    if settings.DEBUG:
+        print("{}: {}".format(switch_id, address))
+    else:
+        SwitchApi().set__address(switch_id, address)
